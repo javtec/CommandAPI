@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using AutoMapper;
 using System;
+using Newtonsoft.Json.Serialization;
 
 namespace CommandAPI
 {
@@ -29,6 +30,11 @@ namespace CommandAPI
 
             services.AddDbContext<CommandContext>
                 (opt => opt.UseNpgsql(builder.ConnectionString));
+
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
